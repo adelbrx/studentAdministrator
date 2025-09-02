@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Student {
     private final String id;
-    private final String firstName;
-    private final String lastName;
+    private  String firstName;
+    private  String lastName;
     private final Map<String, Double> grades = new HashMap<>();
 
     public Student(String id, String firstName, String lastName) {
@@ -29,6 +29,9 @@ public class Student {
     public Map<String, Double> getGrades() {
         return grades;
     }
+
+    public void setFirstName(String firstName) { this.firstName = Objects.requireNonNull(firstName).trim(); }
+    public void setLastName(String lastName)   { this.lastName  = Objects.requireNonNull(lastName).trim(); }
 
     @Override
     public String toString() {
