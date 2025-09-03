@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
+import com.esgi.ui.render.ScoreColorRenderer;
+
 
 public class StudentPanel extends JPanel {
     private final StudentService service;
@@ -19,6 +21,7 @@ public class StudentPanel extends JPanel {
 
     private final GradesTableModel gradesModel = new GradesTableModel();
     private final JTable gradesTable = new JTable(gradesModel);
+
 
     private final JTextField searchField = new JTextField(20);
 
@@ -37,11 +40,26 @@ public class StudentPanel extends JPanel {
         add(topBar(), BorderLayout.NORTH);
         add(centerSplit(), BorderLayout.CENTER);
         add(bottomBar(), BorderLayout.SOUTH);
-
+        configureRenderers();
         loadStudents();
         hookSelection();
         updateButtons();
     }
+
+    private void configureRenderers() {
+        var renderer = new ScoreColorRenderer();
+
+        // Table des notes (droite) : col 1 = "Note"
+        if (gradesTable.getColumnModel().getColumnCount() > 1) {
+            gradesTable.getColumnModel().getColumn(1).setCellRenderer(renderer);
+        }
+
+        // Table des étudiants (gauche) : col 4 = "Moyenne"
+        if (studentTable.getColumnModel().getColumnCount() > 4) {
+            studentTable.getColumnModel().getColumn(4).setCellRenderer(renderer);
+        }
+    }
+
 
     private JComponent topBar() {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
